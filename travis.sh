@@ -39,4 +39,4 @@ function watch_output() {
   done
 }
 set -o pipefail
-env "$@" stdbuf -oL -eL bash "$DIR_THIS"/industrial_ci/src/ci_main.sh; exit |& watch_output
+env "$@" stdbuf -oL -eL bash "$DIR_THIS"/industrial_ci/src/ci_main.sh |& watch_output
