@@ -38,5 +38,5 @@ function watch_output() {
     echo "$REPLY"
   done
 }
-
-{ env "$@" stdbuf -oL -eL bash "$DIR_THIS"/industrial_ci/src/ci_main.sh; exit $?; } |& watch_output
+set -o pipefail
+env "$@" stdbuf -oL -eL bash "$DIR_THIS"/industrial_ci/src/ci_main.sh; exit |& watch_output
