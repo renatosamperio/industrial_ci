@@ -58,21 +58,25 @@ function clone_hive_mind {
 	local SFL_HOME
 	SFL_HOME=$1
 	cd $SFL_HOME
+	echo "   +++ Hive mind home: $SFL_HOME"
 	
-	echo "   +++ Updating hive mind submodules"
-	git submodule update --init
+	echo "   +++ Unlocking path for $USER"
+	ls -laR
 	
-	echo "   +++ Updating honeycomb submodules"
-	cd $SFL_HOME/src/honeycomb
-	git submodule update --init
-	
-	echo "   +++ Updating detection submodules"
-	cd $SFL_HOME/src/detection
-	git submodule update --init
-	
-	echo "   +++ Updating base_gps submodules"
-	cd $SFL_HOME/src/base_gps
-	git submodule update --init
+#	echo "   +++ Updating hive mind submodules"
+#	git submodule update --init
+#	
+#	echo "   +++ Updating honeycomb submodules"
+#	cd $SFL_HOME/src/honeycomb
+#	git submodule update --init
+#	
+#	echo "   +++ Updating detection submodules"
+#	cd $SFL_HOME/src/detection
+#	git submodule update --init
+#	
+#	echo "   +++ Updating base_gps submodules"
+#	cd $SFL_HOME/src/base_gps
+#	git submodule update --init
 }
 
 ici_time_start setup_apt
@@ -164,8 +168,8 @@ if [ "${USE_MOCKUP// }" != "" ]; then
 fi
 
 echo "  +++ Before calling catkin: $(pwd)"
-ls -laR $CATKIN_WORKSPACE/src/hive_mind
-clone_hive_mind $CATKIN_WORKSPACE/src/hive_mind
+ls -laR $CATKIN_WORKSPACE/src/hive_mind/
+clone_hive_mind $CATKIN_WORKSPACE/src/hive_mind/
 
 catkin config --install
 if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi
