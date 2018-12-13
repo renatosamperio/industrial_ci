@@ -61,8 +61,6 @@ function clone_hive_mind {
 	echo "   +++ Hive mind home: $SFL_HOME"
 	
 	echo "   +++ Unlocking path for $USER"
-	sudo chown root:root -R $SFL_HOME/
-	ls -la $SFL_HOME/
 	sudo -i
 	
 	echo "   +++ Updating hive mind submodules"
