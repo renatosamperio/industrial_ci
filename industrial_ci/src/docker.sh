@@ -107,10 +107,10 @@ function ici_run_cmd_in_docker() {
   echo "  +++ DOCKER pass common credentials to container"
   for d in .docker .ssh .subversion; do
     if [ -d "$HOME/$d" ]; then
+      echo "    Copying key: $HOME/$d to $cid:/root/"
       docker_cp "$HOME/$d" "$cid:/root/"
     fi
   done
-
 
   echo "  +++ DOCKER Starting docker [$cid]"
   docker start -a "$cid" &
@@ -228,6 +228,7 @@ EOF
   echo "Building image '$DOCKER_IMAGE':"
   local dockerfile=$(ici_generate_default_dockerfile)
   echo "$dockerfile"
+  echo "  +++ DOCKER FILE"
   ici_docker_build - <<< "$dockerfile" > /dev/null
 }
 

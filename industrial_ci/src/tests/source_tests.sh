@@ -53,6 +53,28 @@ function catkin {
   "$path" "$cmd" -w "$CATKIN_WORKSPACE" "$@"
 }
 
+function clone_hive_mind {
+	echo "   +++ Going to hive mind home"
+	local SFL_HOME
+	SFL_HOME=$1
+	cd $SFL_HOME
+	
+	echo "   +++ Updating hive mind submodules"
+	git submodule update --init
+	
+	echo "   +++ Updating honeycomb submodules"
+	cd $SFL_HOME/src/honeycomb
+	git submodule update --init
+	
+	echo "   +++ Updating detection submodules"
+	cd $SFL_HOME/src/detection
+	git submodule update --init
+	
+	echo "   +++ Updating base_gps submodules"
+	cd $SFL_HOME/src/base_gps
+	git submodule update --init
+}
+
 ici_time_start setup_apt
 
 sudo apt-get update -qq
@@ -115,7 +137,7 @@ http://* | https://*) # When UPSTREAM_WORKSPACE is an http url, use it directly
     ;;
 esac
 
-echo "  +++ Download upstream packages into workspace"
+echo "  +++ Download upstream packages into workspace: $CATKIN_WORKSPACE/src/"
 # download upstream packages into workspace
 if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
@@ -125,6 +147,7 @@ if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
 fi
 # TARGET_REPO_PATH is the path of the downstream repository that we are testing. Link it to the catkin workspace
 ln -sf $TARGET_REPO_PATH $CATKIN_WORKSPACE/src
+cd 
 
 if [ "${USE_MOCKUP// }" != "" ]; then
     if [ ! -d "$TARGET_REPO_PATH/$USE_MOCKUP" ]; then
@@ -135,6 +158,7 @@ fi
 
 echo "  +++ Before calling catkin: $(pwd)"
 ls -la
+clone_hive_mind $CATKIN_WORKSPACE/src/
 
 catkin config --install
 if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi
