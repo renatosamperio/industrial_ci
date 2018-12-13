@@ -26,5 +26,6 @@ export TARGET_REPO_PATH=$BITBUCKET_CLONE_DIR
 export TARGET_REPO_NAME=${BITBUCKET_REPO_SLUG##*/}
 export PYTHONUNBUFFERED=${PYTHONUNBUFFERED:1}
 export _DO_NOT_FOLD=true
+export VERBOSE_OUTPUT=true
 
 env "$@" bash $DIR_THIS/industrial_ci/src/ci_main.sh

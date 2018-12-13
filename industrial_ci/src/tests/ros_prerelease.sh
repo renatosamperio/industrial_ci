@@ -23,8 +23,9 @@
 function setup_environment() {
     export WORKSPACE
     WORKSPACE=$(mktemp -d)
-    echo "WORKSPACE: $WORKSPACE"
-
+    echo "  +++ ROS_PRERELEASE WORKSPACE: $WORKSPACE"
+    
+    echo "  +++ ROS_PRERELEASE Docker port: $DOCKER_PORT"
     if [ -n "$DOCKER_PORT" ]; then
         DIND_OPTS="-e DOCKER_HOST=$DOCKER_PORT"
         user_cmd="useradd ci"
@@ -34,7 +35,7 @@ function setup_environment() {
     else
         error "Could not detect docker settings"
     fi
-
+    echo "  +++ ROS_PRERELEASE Building docker"
     docker build -t "industrial-ci/prerelease" - <<EOF > /dev/null
 FROM ubuntu:xenial
 
@@ -75,16 +76,19 @@ function run_ros_prerelease() {
     # Environment vars.
     local downstream_depth=${PRERELEASE_DOWNSTREAM_DEPTH:-"0"}
 
+	echo "  +++ ROS_PRERELEASE SETUP ENVIRONMENT"
     ici_time_start setup_environment
     setup_environment
     ici_time_end  # setup_environment
 
+	echo "  +++ ROS_PRERELEASE SETUP SCRIPTS"
     ici_time_start setup_prerelease_scripts
     mkdir -p "$WORKSPACE/catkin_workspace/src/"
     local reponame=${PRERELEASE_REPONAME:-$TARGET_REPO_NAME}
     cp -a "$TARGET_REPO_PATH" "$WORKSPACE/catkin_workspace/src/$reponame"
 
     # ensure access rights
+    echo "  +++ ROS_PRERELEASE RUN DOCKER COMMANDS"
     ici_run_cmd_in_docker $DIND_OPTS -v "$WORKSPACE:$WORKSPACE:rw"  --user root  "industrial-ci/prerelease" chown -R ci:ci $WORKSPACE
 
 
@@ -95,10 +99,14 @@ function run_ros_prerelease() {
         cp -a "$TARGET_REPO_PATH/$USE_MOCKUP" "$WORKSPACE/catkin_workspace/src"
     fi
 
+	echo "  +++ ROS_PRERELEASE GENERATE PRE-RELEASE SCRIPT"
     run_in_prerelease_docker generate_prerelease_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml "$ROS_DISTRO" default "$OS_NAME" "$OS_CODE_NAME" "${OS_ARCH:-amd64}" --level "$downstream_depth" --output-dir . --custom-repo "$reponame::::"
     ici_time_end  # setup_prerelease_scripts
 
+	echo "  +++ ROS_PRERELEASE START PRERELEASE"
     ici_time_start prerelease.sh
+    
+    echo "  +++ ROS_PRERELEASE RUN DOCKER PRERELEASE"
     run_in_prerelease_docker env ABORT_ON_TEST_FAILURE=1 ./prerelease.sh -y
     ici_time_end  # prerelease.sh
 

@@ -34,15 +34,19 @@ trap ici_exit EXIT # install industrial_ci exit handler
 
 # Start prerelease, and once it finishs then finish this script too.
 if [ "$PRERELEASE" == true ]; then
+  echo "  +++ CI MAIN CALL PRERELEASE"
   source ${ICI_SRC_PATH}/tests/ros_prerelease.sh
   run_ros_prerelease
 elif [ -n "$ABICHECK_URL" ]; then
+  echo "  +++ CI MAIN CALL ABICHECK_URL"
   source ${ICI_SRC_PATH}/tests/abi_check.sh
   run_abi_check
 elif [ -n "$CLANG_FORMAT_CHECK" ]; then
+  echo "  +++ CI MAIN CALL CLANG_FORMAT_CHECK"
   source ${ICI_SRC_PATH}/tests/clang_format_check.sh
   run_clang_format_check
 else
+  echo "  +++ CI MAIN CALL SOURCE TESTS"
   source ${ICI_SRC_PATH}/tests/source_tests.sh
 fi
 

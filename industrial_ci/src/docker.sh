@@ -36,6 +36,7 @@ function ici_require_run_in_docker() {
   if ! [ "$IN_DOCKER" ]; then
     ici_prepare_docker_image
 
+	echo "  +++ DOCKER SET TARGET REPO: $TARGET_REPO_NAME"
     local docker_target_repo_path=/root/src/$TARGET_REPO_NAME
     local docker_ici_src_path=/root/ici
     ici_run_cmd_in_docker -e "TARGET_REPO_PATH=$docker_target_repo_path" \
@@ -64,11 +65,13 @@ function ici_require_run_in_docker() {
 #   (None)
 #######################################
 function ici_run_cmd_in_docker() {
+  echo "  +++ DOCKER wrapper for running a command in docker"
   local run_opts=($DOCKER_RUN_OPTS)
   local commit_image=$_COMMIT_IMAGE
   unset _COMMIT_IMAGE
 
   #forward ssh agent into docker container
+ echo "  +++ DOCKER forward ssh agent into docker container"  
  local ssh_docker_opts=()
   if [ "$SSH_AUTH_SOCK" ]; then
      local auth_dir
@@ -86,6 +89,7 @@ function ici_run_cmd_in_docker() {
     run_opts+=(-v "$qemu_path:$qemu_path:ro")
   fi
 
+  echo "  +++ DOCKER creating docker environment"
   local cid
   cid=$(docker create \
       --env-file "${ICI_SRC_PATH}"/docker.env \
@@ -93,18 +97,22 @@ function ici_run_cmd_in_docker() {
       "$@")
 
   # detect user inside container
+  echo "  +++ DOCKER detect user inside container"
   local docker_image
   docker_image=$(docker inspect --format='{{.Config.Image}}' "$cid")
   docker_uid=$(docker run --rm "${run_opts[@]}" "$docker_image" id -u)
   docker_gid=$(docker run --rm "${run_opts[@]}" "$docker_image" id -g)
 
   # pass common credentials to container
+  echo "  +++ DOCKER pass common credentials to container"
   for d in .docker .ssh .subversion; do
     if [ -d "$HOME/$d" ]; then
       docker_cp "$HOME/$d" "$cid:/root/"
     fi
   done
 
+
+  echo "  +++ DOCKER Starting docker [$cid]"
   docker start -a "$cid" &
   trap 'docker kill $cid' INT
   local ret=0
@@ -139,6 +147,7 @@ function docker_cp {
 #   (None)
 #######################################
 function ici_docker_build() {
+  echo "  +++ DOCKER wrapper for docker build"
   local opts=($DOCKER_BUILD_OPTS)
   if [ "$DOCKER_PULL" != false ]; then
     opts+=("--pull")
@@ -161,6 +170,7 @@ function ici_docker_build() {
 # Returns:
 #   (None)
 function ici_prepare_docker_image() {
+  echo "  +++ DOCKER set-ups the CI docker image"
   ici_time_start prepare_docker_image
 
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
@@ -195,6 +205,7 @@ function ici_prepare_docker_image() {
 #   (None)
 
 function ici_build_default_docker_image() {
+  echo "  +++ DOCKER build the default docker image"
   if [ -n "$INJECT_QEMU" ]; then
     local qemu_path
     qemu_path=$(which "qemu-$INJECT_QEMU-static") || error "please install qemu-user-static"
@@ -212,6 +223,7 @@ EOF
     rm -rf "$qemu_temp"
   fi
   # choose a unique image name
+  echo "  +++ DOCKER choose a unique image name"
   export DOCKER_IMAGE="industrial-ci/$ROS_DISTRO/$DOCKER_BASE_IMAGE"
   echo "Building image '$DOCKER_IMAGE':"
   local dockerfile=$(ici_generate_default_dockerfile)
@@ -220,6 +232,7 @@ EOF
 }
 
 function ici_generate_default_dockerfile() {
+  echo "  +++ DOCKER generate docker file"
   cat <<EOF
 FROM $DOCKER_BASE_IMAGE
 

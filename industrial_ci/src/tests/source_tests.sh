@@ -88,6 +88,7 @@ ici_time_start setup_rosws
 
 ## BEGIN: travis' install: # Use this to install any prerequisites or dependencies necessary to run your build ##
 # Create workspace
+echo "  +++ Install any necessary prerequisites or dependencies"
 export CATKIN_WORKSPACE=~/catkin_ws
 mkdir -p $CATKIN_WORKSPACE/src
 if [ ! -f $CATKIN_WORKSPACE/src/.rosinstall ]; then
@@ -114,6 +115,7 @@ http://* | https://*) # When UPSTREAM_WORKSPACE is an http url, use it directly
     ;;
 esac
 
+echo "  +++ Download upstream packages into workspace"
 # download upstream packages into workspace
 if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
@@ -137,6 +139,9 @@ if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi
 ici_time_end  # setup_rosws
 
 
+echo "  +++ Execute BEFORE SCRIPT: ${BEFORE_SCRIPT}"
+echo "      $(pwd)"
+
 # execute BEFORE_SCRIPT in repository, exit on errors
 if [ "${BEFORE_SCRIPT// }" != "" ]; then
   ici_time_start before_script
@@ -146,6 +151,8 @@ if [ "${BEFORE_SCRIPT// }" != "" ]; then
   ici_time_end  # before_script
 fi
 
+
+echo "  +++ ROSDEP INSTALL"
 ici_time_start rosdep_install
 
 rosdep_opts=(-q --from-paths $CATKIN_WORKSPACE/src --ignore-src --rosdistro $ROS_DISTRO -y)
@@ -153,12 +160,15 @@ if [ -n "$ROSDEP_SKIP_KEYS" ]; then
   rosdep_opts+=(--skip-keys "$ROSDEP_SKIP_KEYS")
 fi
 set -o pipefail # fail if rosdep install fails
+echo "  +++ ROSDEP INSTALL options set"
 rosdep install "${rosdep_opts[@]}" | { grep "executing command" || true; }
 set +o pipefail
 
+echo "  +++ ROSDEP INSTALL time end"
 ici_time_end  # rosdep_install
 
 if [ "$CATKIN_LINT" == "true" ] || [ "$CATKIN_LINT" == "pedantic" ]; then
+    echo "  +++ CATKIN LINT"
     ici_time_start catkin_lint
     sudo pip install catkin-lint
     if [ "$CATKIN_LINT" == "pedantic" ]; then
@@ -168,6 +178,7 @@ if [ "$CATKIN_LINT" == "true" ] || [ "$CATKIN_LINT" == "pedantic" ]; then
     ici_time_end  # catkin_lint
 fi
 
+echo "  +++ Catking Build"
 ici_time_start catkin_build
 
 # for catkin
@@ -180,18 +191,21 @@ if [ "$BUILDER" == catkin ]; then catkin build $OPT_VI --summarize  --no-status 
 ici_time_end  # catkin_build
 
 if [ "$NOT_TEST_BUILD" != "true" ]; then
+	echo "  +++ CATKIN BUILD DOWNSTREAM PACAKGES"
     ici_time_start catkin_build_downstream_pkgs
     if [ "$BUILDER" == catkin ]; then
         catkin build $OPT_VI --summarize  --no-status $PKGS_DOWNSTREAM $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS
     fi
     ici_time_end  # catkin_build_downstream_pkgs
 
+	echo "  +++ CATKIN BUILD DOWNSTREAM TESTS"
     ici_time_start catkin_build_tests
     if [ "$BUILDER" == catkin ]; then
         catkin build --no-deps --catkin-make-args tests -- $OPT_VI --summarize  --no-status $PKGS_DOWNSTREAM $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS --
     fi
     ici_time_end  # catkin_build_tests
 
+	echo "  +++ CATKIN RUN TESTS"
     ici_time_start catkin_run_tests
     if [ "$BUILDER" == catkin ]; then
         catkin build --no-deps --catkin-make-args run_tests -- $OPT_RUN_V --no-status $PKGS_DOWNSTREAM $CATKIN_PARALLEL_TEST_JOBS --make-args $ROS_PARALLEL_TEST_JOBS --
@@ -211,7 +225,8 @@ if [ "$NOT_TEST_BUILD" != "true" ]; then
 fi
 
 if [ "$NOT_TEST_INSTALL" != "true" ]; then
-
+	
+	echo "  +++ CATKIN RUN INSTALL TESTS"
     ici_time_start catkin_install_run_tests
 
     EXIT_STATUS=0
