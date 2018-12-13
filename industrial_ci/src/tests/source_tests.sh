@@ -116,6 +116,8 @@ mkdir -p $CATKIN_WORKSPACE/src
 if [ ! -f $CATKIN_WORKSPACE/src/.rosinstall ]; then
   $ROSWS init $CATKIN_WORKSPACE/src
 fi
+
+echo "  +++ Upstream space: $UPSTREAM_WORKSPACE"
 case "$UPSTREAM_WORKSPACE" in
 debian)
     echo "Obtain deb binary for upstream packages."
@@ -123,9 +125,11 @@ debian)
 file) # When UPSTREAM_WORKSPACE is file, the dependended packages that need to be built from source are downloaded based on $ROSINSTALL_FILENAME file.
     # Prioritize $ROSINSTALL_FILENAME.$ROS_DISTRO if it exists over $ROSINSTALL_FILENAME.
     if [ -e $TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO ]; then
+    	echo "  +++ install (maybe unreleased version) dependencies from source for specific ros version"
         # install (maybe unreleased version) dependencies from source for specific ros version
         $ROSWS merge -t $CATKIN_WORKSPACE/src file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO
     elif [ -e $TARGET_REPO_PATH/$ROSINSTALL_FILENAME ]; then
+    	echo "  +++ install (maybe unreleased version) dependencies from source"
         # install (maybe unreleased version) dependencies from source
         $ROSWS merge -t $CATKIN_WORKSPACE/src file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME
     else
@@ -141,10 +145,13 @@ echo "  +++ Download upstream packages into workspace: $CATKIN_WORKSPACE/src/"
 # download upstream packages into workspace
 if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
+    echo "  +++ ensure that the target is not in .rosinstall"
     (cd $CATKIN_WORKSPACE/src; $ROSWS rm $TARGET_REPO_NAME 2> /dev/null \
      && echo "$ROSWS ignored $TARGET_REPO_NAME found in $CATKIN_WORKSPACE/src/.rosinstall file. Its source fetched from your repository is used instead." || true) # TODO: add warn function
     $ROSWS update -t $CATKIN_WORKSPACE/src
 fi
+
+echo "  +++ Linking target path to catkin workspace"
 # TARGET_REPO_PATH is the path of the downstream repository that we are testing. Link it to the catkin workspace
 ln -sf $TARGET_REPO_PATH $CATKIN_WORKSPACE/src
 cd 
@@ -157,8 +164,8 @@ if [ "${USE_MOCKUP// }" != "" ]; then
 fi
 
 echo "  +++ Before calling catkin: $(pwd)"
-ls -laR $CATKIN_WORKSPACE/src/
-clone_hive_mind $CATKIN_WORKSPACE/src/
+ls -laR $CATKIN_WORKSPACE/src/hive_mind
+clone_hive_mind $CATKIN_WORKSPACE/src/hive_mind
 
 catkin config --install
 if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi

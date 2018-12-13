@@ -107,12 +107,14 @@ function ici_run_cmd_in_docker() {
   echo "  +++ DOCKER pass common credentials to container"
   for d in .docker .ssh .subversion; do
     if [ -d "$HOME/$d" ]; then
+      ls -la $HOME/$d
       echo "    Copying key: $HOME/$d to $cid:/root/"
       docker_cp "$HOME/$d" "$cid:/root/"
     fi
   done
 
   echo "  +++ DOCKER Starting docker [$cid]"
+  
   docker start -a "$cid" &
   trap 'docker kill $cid' INT
   local ret=0
