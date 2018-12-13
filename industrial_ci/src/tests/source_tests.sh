@@ -157,7 +157,7 @@ if [ "${USE_MOCKUP// }" != "" ]; then
 fi
 
 echo "  +++ Before calling catkin: $(pwd)"
-ls -la
+ls -laR $CATKIN_WORKSPACE/src/
 clone_hive_mind $CATKIN_WORKSPACE/src/
 
 catkin config --install
