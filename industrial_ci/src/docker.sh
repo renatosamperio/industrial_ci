@@ -232,7 +232,6 @@ EOF
 }
 
 function ici_generate_default_dockerfile() {
-  echo "  DOCKER generate docker file"
   cat <<EOF
 FROM $DOCKER_BASE_IMAGE
 
@@ -258,5 +257,4 @@ RUN sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 EOF
-  echo " DOCKER File generated..."
 }
