@@ -63,6 +63,7 @@ function clone_hive_mind {
 	echo "   +++ Unlocking path for $USER"
 	sudo chown root:root -R $SFL_HOME/
 	ls -la $SFL_HOME/
+	sudo -i
 	
 	echo "   +++ Updating hive mind submodules"
 	git submodule update --init
@@ -169,7 +170,6 @@ if [ "${USE_MOCKUP// }" != "" ]; then
 fi
 
 echo "  +++ Before calling catkin: $(pwd)"
-ls -laR $CATKIN_WORKSPACE/src/hive_mind/
 clone_hive_mind $CATKIN_WORKSPACE/src/hive_mind/
 
 catkin config --install
