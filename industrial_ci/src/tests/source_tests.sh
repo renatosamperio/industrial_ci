@@ -61,22 +61,23 @@ function clone_hive_mind {
 	echo "   +++ Hive mind home: $SFL_HOME"
 	
 	echo "   +++ Unlocking path for $USER"
-	ls -laR
+	sudo chown root:root -R $SFL_HOME/
+	ls -la $SFL_HOME/
 	
-#	echo "   +++ Updating hive mind submodules"
-#	git submodule update --init
-#	
-#	echo "   +++ Updating honeycomb submodules"
-#	cd $SFL_HOME/src/honeycomb
-#	git submodule update --init
-#	
-#	echo "   +++ Updating detection submodules"
-#	cd $SFL_HOME/src/detection
-#	git submodule update --init
-#	
-#	echo "   +++ Updating base_gps submodules"
-#	cd $SFL_HOME/src/base_gps
-#	git submodule update --init
+	echo "   +++ Updating hive mind submodules"
+	git submodule update --init
+	
+	echo "   +++ Updating honeycomb submodules"
+	cd $SFL_HOME/src/honeycomb
+	git submodule update --init
+	
+	echo "   +++ Updating detection submodules"
+	cd $SFL_HOME/src/detection
+	git submodule update --init
+	
+	echo "   +++ Updating base_gps submodules"
+	cd $SFL_HOME/src/base_gps
+	git submodule update --init
 }
 
 ici_time_start setup_apt
