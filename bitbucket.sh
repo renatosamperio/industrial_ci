@@ -28,6 +28,8 @@ export PYTHONUNBUFFERED=${PYTHONUNBUFFERED:1}
 export _DO_NOT_FOLD=true
 export VERBOSE_OUTPUT=true
 echo "  +++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
+echo "  +++ ARG1: $1"
+echo "  +++ ARG2: $2"
 export ROSINSTALL_FILENAME=src/.rosinstall
 export UPSTREAM_WORKSPACE=file
 
