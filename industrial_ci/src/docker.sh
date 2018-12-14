@@ -111,6 +111,16 @@ function ici_run_cmd_in_docker() {
   docker_uid=$(docker run --rm "${run_opts[@]}" "$docker_image" id -u)
   docker_gid=$(docker run --rm "${run_opts[@]}" "$docker_image" id -g)
 
+  # checking for known hosts
+  echo "  +++ DOCKER checking for known hosts"
+  echo "  ++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
+  if [ -n "$ROSINSTALL_FILENAME" ]; then
+  	cat my_known_hosts >> ~/.ssh/known_hosts
+  	(umask  077 ; echo $CI_SSH_KEY | base64 -d > ~/.ssh/id_rsa)
+  	echo "  +++ DOCKER added known hosts to ~/.ssh/"
+  	ls -la ~/.ssh/
+  fi
+  
   # pass common credentials to container
   echo "  +++ DOCKER pass common credentials to container"
   for d in .docker .ssh .subversion; do
