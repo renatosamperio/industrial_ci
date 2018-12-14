@@ -33,7 +33,5 @@ export UPSTREAM_WORKSPACE=file
 
 echo "  +++ ROS_DISTRO: $ROS_DISTRO"
 echo "  +++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
-echo "  +++ ARG1: $1"
-echo "  +++ ARG2: $2"
 
 env "$@" bash $DIR_THIS/industrial_ci/src/ci_main.sh
