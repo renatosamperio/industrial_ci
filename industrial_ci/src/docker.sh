@@ -119,6 +119,7 @@ function ici_run_cmd_in_docker() {
   	(umask  077 ; echo $CI_SSH_KEY | base64 -d > ~/.ssh/id_rsa)
   	echo "  +++ DOCKER added known hosts to ~/.ssh/"
   	ls -la ~/.ssh/
+  	cat ~/.ssh/known_hosts
   fi
   
   # pass common credentials to container
