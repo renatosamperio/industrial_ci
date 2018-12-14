@@ -59,24 +59,24 @@ function clone_hive_mind {
 	SFL_HOME=$1
 	cd $SFL_HOME
 	echo "   +++ Hive mind home: $SFL_HOME"
+	ls -laR
 	
-	echo "   +++ Unlocking path for $USER"
-	sudo -i
-	
-	echo "   +++ Updating hive mind submodules"
-	git submodule update --init
-	
-	echo "   +++ Updating honeycomb submodules"
-	cd $SFL_HOME/src/honeycomb
-	git submodule update --init
-	
-	echo "   +++ Updating detection submodules"
-	cd $SFL_HOME/src/detection
-	git submodule update --init
-	
-	echo "   +++ Updating base_gps submodules"
-	cd $SFL_HOME/src/base_gps
-	git submodule update --init
+#	echo "   +++ Unlocking path for $USER"
+#	
+#	echo "   +++ Updating hive mind submodules"
+#	git submodule update --init
+#	
+#	echo "   +++ Updating honeycomb submodules"
+#	cd $SFL_HOME/src/honeycomb
+#	git submodule update --init
+#	
+#	echo "   +++ Updating detection submodules"
+#	cd $SFL_HOME/src/detection
+#	git submodule update --init
+#	
+#	echo "   +++ Updating base_gps submodules"
+#	cd $SFL_HOME/src/base_gps
+#	git submodule update --init
 }
 
 ici_time_start setup_apt
@@ -126,6 +126,8 @@ echo "      ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
 echo "      ROS_DISTRO: $ROS_DISTRO"
 echo "      CI_SOURCE_PATH: $CI_SOURCE_PATH"
 echo "      file: file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO"
+echo "      file: file://$TARGET_REPO_PATH/src/.rosinstall"
+head file://$TARGET_REPO_PATH/src/.rosinstall
 echo "  +++ Upstream space: $UPSTREAM_WORKSPACE"
 case "$UPSTREAM_WORKSPACE" in
 debian)
@@ -174,7 +176,7 @@ if [ "${USE_MOCKUP// }" != "" ]; then
 fi
 
 echo "  +++ Before calling catkin: $(pwd)"
-clone_hive_mind $CATKIN_WORKSPACE/src/hive_mind/
+clone_hive_mind $CATKIN_WORKSPACE/src/
 
 catkin config --install
 if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi
