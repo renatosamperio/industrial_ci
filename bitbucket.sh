@@ -27,5 +27,7 @@ export TARGET_REPO_NAME=${BITBUCKET_REPO_SLUG##*/}
 export PYTHONUNBUFFERED=${PYTHONUNBUFFERED:1}
 export _DO_NOT_FOLD=true
 export VERBOSE_OUTPUT=true
+export ROSINSTALL_FILENAME=src/.rosinstall
+export UPSTREAM_WORKSPACE=file
 
 env "$@" bash $DIR_THIS/industrial_ci/src/ci_main.sh
