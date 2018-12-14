@@ -27,12 +27,13 @@ export TARGET_REPO_NAME=${BITBUCKET_REPO_SLUG##*/}
 export PYTHONUNBUFFERED=${PYTHONUNBUFFERED:1}
 export _DO_NOT_FOLD=true
 export VERBOSE_OUTPUT=true
+export ROS_DISTRO=$1
+export ROSINSTALL_FILENAME=$2
+export UPSTREAM_WORKSPACE=file
+
 echo "  +++ ROS_DISTRO: $ROS_DISTRO"
 echo "  +++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
 echo "  +++ ARG1: $1"
 echo "  +++ ARG2: $2"
-export ROS_DISTRO=kinetic
-export ROSINSTALL_FILENAME=$2
-export UPSTREAM_WORKSPACE=file
 
 env "$@" bash $DIR_THIS/industrial_ci/src/ci_main.sh
