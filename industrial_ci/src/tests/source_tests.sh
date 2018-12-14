@@ -128,7 +128,7 @@ echo "      CI_SOURCE_PATH: $CI_SOURCE_PATH"
 echo "      file: file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO"
 echo "      file: file://$TARGET_REPO_PATH/src/.rosinstall"
 ## head $TARGET_REPO_PATH/src/.rosinstall
-ls -laR $TARGET_REPO_PATH/src/
+ls -laR $TARGET_REPO_PATH/
 echo "  +++ Upstream space: $UPSTREAM_WORKSPACE"
 case "$UPSTREAM_WORKSPACE" in
 debian)
