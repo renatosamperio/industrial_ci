@@ -128,6 +128,12 @@ debian)
     ;;
 file) # When UPSTREAM_WORKSPACE is file, the dependended packages that need to be built from source are downloaded based on $ROSINSTALL_FILENAME file.
     # Prioritize $ROSINSTALL_FILENAME.$ROS_DISTRO if it exists over $ROSINSTALL_FILENAME.
+    echo "      CATKIN_WORKSPACE: $CATKIN_WORKSPACE"
+	echo "      TARGET_REPO_PATH: $TARGET_REPO_PATH"
+	echo "      ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
+	echo "      ROS_DISTRO: $ROS_DISTRO"
+	echo "      CI_SOURCE_PATH: $CI_SOURCE_PATH"
+	echo "      file: file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO"
     if [ -e $TARGET_REPO_PATH/$ROSINSTALL_FILENAME.$ROS_DISTRO ]; then
     	echo "  +++ install (maybe unreleased version) dependencies from source for specific ros version"
         # install (maybe unreleased version) dependencies from source for specific ros version
