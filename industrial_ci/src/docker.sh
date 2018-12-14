@@ -113,8 +113,8 @@ function ici_run_cmd_in_docker() {
 
   # checking for known hosts
   echo "  +++ DOCKER checking for known hosts"
-  echo "  ++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
-  if [ -n "$ROSINSTALL_FILENAME" ]; then
+  echo "  ++ CI_SSH_KEY: $CI_SSH_KEY"
+  if [ -n "$CI_SSH_KEY" ]; then
   	cat my_known_hosts >> ~/.ssh/known_hosts
   	(umask  077 ; echo $CI_SSH_KEY | base64 -d > ~/.ssh/id_rsa)
   	echo "  +++ DOCKER added known hosts to ~/.ssh/"
