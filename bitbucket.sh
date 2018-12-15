@@ -29,6 +29,7 @@ export _DO_NOT_FOLD=true
 export VERBOSE_OUTPUT=true
 export UPSTREAM_WORKSPACE=file
 
+echo "  +++ DOCKER_FILE: $DOCKER_FILE"
 echo "  +++ ROS_DISTRO: $ROS_DISTRO"
 echo "  +++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
 

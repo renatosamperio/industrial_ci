@@ -199,18 +199,28 @@ function ici_prepare_docker_image() {
   echo "  +++ DOCKER set-ups the CI docker image"
   ici_time_start prepare_docker_image
 
+  echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
+  	echo "  +++ DOCKER docker file was provided"
     DOCKER_IMAGE=${DOCKER_IMAGE:"industrial-ci/custom"}
+    echo "  +++ DOCKER DOCKER_IMAGE: $DOCKER_IMAGE"
+    
+    echo "  +++ target_docker: $TARGET_REPO_PATH/$DOCKER_FILE"
     if [ -f "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if single file, run without context
+       echo "  +++ if single file, run without context"
        ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
     elif [ -d "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if path, run with context
+    	echo "  +++ if path, run with context"
         ici_docker_build "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
     else # url, run directly
+    	echo "  +++ url, run directly"
         ici_docker_build "$DOCKER_FILE" > /dev/null
     fi
   elif [ -z "$DOCKER_IMAGE" ]; then # image was not provided, use default
+  	 echo "  +++ image was not provided, use default"
      ici_build_default_docker_image
   elif [ "$DOCKER_PULL" != false ]; then
+  	 echo "  +++ pulling image"
      docker pull "$DOCKER_IMAGE"
   fi
   ici_time_end # prepare_docker_image
