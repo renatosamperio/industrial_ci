@@ -99,18 +99,18 @@ function ici_run_cmd_in_docker() {
     echo "  +++ DOCKER 3run_opts: $run_opts"
   fi
 
-  echo "  +++ DOCKER creating docker environment"
   echo "  +++ DOCKER env-file: ${ICI_SRC_PATH}"/docker.env"
   ls -la ${ICI_SRC_PATH}"/docker.env
   echo "  +++ DOCKER options: ${run_opts[@]}"
   echo "  +++ DOCKER other?: $@}"
   echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
   local cid
+  
+  echo "  +++ DOCKER creating docker environment"
   cid=$(docker create \
       --env-file "${ICI_SRC_PATH}"/docker.env \
-      --env TARGET_REPO_PATH=$TARGET_REPO_PATH \
       "${run_opts[@]}" \
-      #"$@"
+      "$@"
       )
 
   # detect user inside container
