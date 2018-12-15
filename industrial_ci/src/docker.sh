@@ -113,9 +113,8 @@ function ici_run_cmd_in_docker() {
       -e TARGET_REPO_PATH=/root/src/langstroth \
 	  -v /opt/atlassian/pipelines/agent/build/:/root/src/langstroth:ro \
 	  -v /opt/atlassian/pipelines/agent/build/.industrial_ci/industrial_ci/src/:/root/ici:ro \
-	  -t  /bin/bash /root/ici/ci_main.sh \
-      "$@"
-      )
+	  -t  /bin/bash /root/ici/ci_main.sh)
+      #"$@")
 
   # detect user inside container
   echo "  +++ DOCKER detect user inside container"
