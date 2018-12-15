@@ -177,8 +177,8 @@ if [ "${USE_MOCKUP// }" != "" ]; then
     ln -sf "$TARGET_REPO_PATH/$USE_MOCKUP" $CATKIN_WORKSPACE/src
 fi
 
-echo "  +++ Before calling catkin: $(pwd)"
-clone_hive_mind $CATKIN_WORKSPACE/src/
+#echo "  +++ Before calling catkin: $(pwd)"
+#clone_hive_mind $CATKIN_WORKSPACE/src/
 
 catkin config --install
 if [ -n "$CATKIN_CONFIG" ]; then eval catkin config $CATKIN_CONFIG; fi

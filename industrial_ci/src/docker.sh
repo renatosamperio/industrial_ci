@@ -33,14 +33,16 @@
 #   (None)
 #######################################
 function ici_require_run_in_docker() {
+  echo "  +++ DOCKER running docker requirement"
+  echo "  +++ IN_DOCKER: $IN_DOCKER"
   if ! [ "$IN_DOCKER" ]; then
     ici_prepare_docker_image
 
     local docker_target_repo_path=/root/src/$TARGET_REPO_NAME
     local docker_ici_src_path=/root/ici
-    echo "  +++ DOCKER SET TARGET REPO: $TARGET_REPO_NAME"
-	echo "  +++ DOCKER docker_target_repo_path: $docker_target_repo_path"
-	echo "  +++ DOCKER DOCKER_IMAGE: $DOCKER_IMAGE"
+    echo "  +++   DOCKER SET TARGET REPO: $TARGET_REPO_NAME"
+	echo "  +++   DOCKER docker_target_repo_path: $docker_target_repo_path"
+	echo "  +++   DOCKER DOCKER_IMAGE: $DOCKER_IMAGE"
     ici_run_cmd_in_docker -e "TARGET_REPO_PATH=$docker_target_repo_path" \
                           -v "$TARGET_REPO_PATH/:$docker_target_repo_path:ro" \
                           -v "$ICI_SRC_PATH/:$docker_ici_src_path:ro" \
@@ -229,6 +231,7 @@ function ici_prepare_docker_image() {
 function ici_build_default_docker_image() {
   echo "  +++ DOCKER build the default docker image"
   if [ -n "$INJECT_QEMU" ]; then
+  	echo "  +++ DOCKER injecting qemu"
     local qemu_path
     qemu_path=$(which "qemu-$INJECT_QEMU-static") || error "please install qemu-user-static"
     echo "Inject qemu..."
@@ -294,8 +297,7 @@ RUN apt-get --no-install-recommends -y \
     ros-$ROS_DISTRO-rviz \
     ros-$ROS_DISTRO-rviz \
     ros-$ROS_DISTRO-geographic-msgs \
-    ros-$ROS_DISTRO-control-toolbox \
-    python-pip
+    ros-$ROS_DISTRO-control-toolbox 
 
 RUN apt-get --no-install-recommends -y \
     python-setuptools \
