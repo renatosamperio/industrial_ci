@@ -299,24 +299,5 @@ RUN apt-get --no-install-recommends -y \
     ros-$ROS_DISTRO-geographic-msgs \
     ros-$ROS_DISTRO-control-toolbox 
 
-RUN apt-get --no-install-recommends -y \
-    python-setuptools \
-    cmake \
-    libeigen3-dev \
-    python-dev \
-    libgtest-dev \
-    libgeographic-dev \
-    geographiclib-tools \
-    libconsole-bridge-dev \
-    python-lxml \
-    libboost-all-dev \
-    python-future \
-    python-pip \
-    python-pandas \
-    python-scapy \
-    python-requests \
-    python-tzlocal \
-    python-jinja2 \
-    libi2c-dev
 EOF
 }
