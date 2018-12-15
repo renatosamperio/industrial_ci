@@ -99,14 +99,13 @@ function ici_run_cmd_in_docker() {
     echo "  +++ DOCKER 3run_opts: $run_opts"
   fi
 
-  echo "  +++ DOCKER env-file: ${ICI_SRC_PATH}"/docker.env"
-  ls -la ${ICI_SRC_PATH}"/docker.env
-  echo "  +++ DOCKER options: ${run_opts[@]}"
-  echo "  +++ DOCKER other?: $@}"
-  echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
-  local cid
-  
+#  echo "  +++ DOCKER env-file: ${ICI_SRC_PATH}"/docker.env"
+#  ls -la ${ICI_SRC_PATH}"/docker.env
+#  echo "  +++ DOCKER options: ${run_opts[@]}"
+#  echo "  +++ DOCKER other?: $@}"
+#  echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
   echo "  +++ DOCKER creating docker environment"
+  local cid
   cid=$(docker create --env-file "${ICI_SRC_PATH}"/docker.env)
   
       #-e TARGET_REPO_PATH=/root/src/langstroth -v /opt/atlassian/pipelines/agent/build/:/root/src/langstroth:ro -v /opt/atlassian/pipelines/agent/build/.industrial_ci/industrial_ci/src/:/root/ici:ro -t  /bin/bash /root/ici/ci_main.sh)
