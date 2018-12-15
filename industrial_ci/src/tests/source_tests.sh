@@ -145,6 +145,7 @@ file) # When UPSTREAM_WORKSPACE is file, the dependended packages that need to b
     	echo "  +++ install (maybe unreleased version) dependencies from source"
         # install (maybe unreleased version) dependencies from source
         $ROSWS merge -t $CATKIN_WORKSPACE/src file://$TARGET_REPO_PATH/$ROSINSTALL_FILENAME
+        ls -la $CATKIN_WORKSPACE/src
     else
         error "UPSTREAM_WORKSPACE file '$TARGET_REPO_PATH/$ROSINSTALL_FILENAME[.$ROS_DISTRO]' does not exist"
     fi
