@@ -282,22 +282,6 @@ RUN sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list \
         ssh-client \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-    
-RUN apt-get --no-install-recommends -y \
-    python-rosinstall \
-    python-rosinstall-generator \
-    ros-$ROS_DISTRO-urdf \
-    ros-$ROS_DISTRO-eigen-conversions \
-    ros-$ROS_DISTRO-diagnostic-updater \
-    ros-$ROS_DISTRO-angles \
-    ros-$ROS_DISTRO-octomap \
-    ros-$ROS_DISTRO-octomap-server \
-    ros-$ROS_DISTRO-cv-bridge \
-    ros-$ROS_DISTRO-filters \
-    ros-$ROS_DISTRO-rviz \
-    ros-$ROS_DISTRO-rviz \
-    ros-$ROS_DISTRO-geographic-msgs \
-    ros-$ROS_DISTRO-control-toolbox 
 
 EOF
 }
