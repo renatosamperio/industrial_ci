@@ -107,10 +107,12 @@ function ici_run_cmd_in_docker() {
   local cid
   
   echo "  +++ DOCKER creating docker environment"
-  cid=$(docker create \
-      --env-file "${ICI_SRC_PATH}"/docker.env \
-      -e TARGET_REPO_PATH=/root/src/langstroth -v /opt/atlassian/pipelines/agent/build/:/root/src/langstroth:ro -v /opt/atlassian/pipelines/agent/build/.industrial_ci/industrial_ci/src/:/root/ici:ro -t  /bin/bash /root/ici/ci_main.sh)
-
+  cid=$(docker create --env-file "${ICI_SRC_PATH}"/docker.env)
+  
+      #-e TARGET_REPO_PATH=/root/src/langstroth -v /opt/atlassian/pipelines/agent/build/:/root/src/langstroth:ro -v /opt/atlassian/pipelines/agent/build/.industrial_ci/industrial_ci/src/:/root/ici:ro -t  /bin/bash /root/ici/ci_main.sh)
+  
+  	  #"${run_opts[@]}" \
+  	  #"$@")
 
   # detect user inside container
   echo "  +++ DOCKER detect user inside container"
