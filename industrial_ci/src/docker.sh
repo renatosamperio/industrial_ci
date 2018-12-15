@@ -178,6 +178,7 @@ function ici_docker_build() {
   if [ "$DOCKER_PULL" != false ]; then
     opts+=("--pull")
   fi
+  echo "  +++ DOCKER building with options: ${opts[@]}"
   docker build -t "$DOCKER_IMAGE" "${opts[@]}" "$@"
 }
 
@@ -210,8 +211,10 @@ function ici_prepare_docker_image() {
     ls -la /opt/atlassian/pipelines/agent/build/setup/Dockerfile
     
     if [ -f "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if single file, run without context
-       echo "  +++ if single file, run without context"
-       ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
+       echo "  +++ DOCKER if single file, run without context"
+       echo "  +++ DOCKER options: $DOCKER_BUILD_OPTS"
+       #ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
+       docker build -f $TARGET_REPO_PATH/$DOCKER_FILE
     elif [ -d "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if path, run with context
     	echo "  +++ if path, run with context"
         ici_docker_build "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
