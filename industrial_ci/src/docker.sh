@@ -121,6 +121,7 @@ function ici_run_cmd_in_docker() {
   	(umask  077 ; echo $CI_SSH_KEY | base64 -d > ~/.ssh/id_rsa)
   	echo "  +++ DOCKER added known hosts to ~/.ssh/"
   	ls -la ~/.ssh/
+  	echo "  +++ Local known hosts"
   	cat ~/.ssh/known_hosts
   fi
   
@@ -128,6 +129,7 @@ function ici_run_cmd_in_docker() {
   echo "  +++ DOCKER pass common credentials to container"
   for d in .docker .ssh .subversion; do
     if [ -d "$HOME/$d" ]; then
+      echo "  +++ HOME: $HOME"
       echo "  +++ PWD: $(pwd)"
       ls -laR $HOME/$d
       echo "    Copying key: $HOME/$d to $cid:/root/"
