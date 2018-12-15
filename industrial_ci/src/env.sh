@@ -101,6 +101,6 @@ fi
 if [ -z "$DOCKER_BASE_IMAGE" ]; then
     DOCKER_BASE_IMAGE="$OS_NAME:$OS_CODE_NAME" # scheme works for all supported OS images
 fi
-
+echo "  +++ ENV DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
 
 export TERM=${TERM:-dumb}

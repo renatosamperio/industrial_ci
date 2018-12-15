@@ -28,6 +28,7 @@ export PYTHONUNBUFFERED=${PYTHONUNBUFFERED:1}
 export _DO_NOT_FOLD=true
 export VERBOSE_OUTPUT=true
 export UPSTREAM_WORKSPACE=file
+export DOCKER_BASE_IMAGE=nvidia/cuda:9.2-devel-ubuntu16.04
 
 echo "  +++ DOCKER_FILE: $DOCKER_FILE"
 echo "  +++ ROS_DISTRO: $ROS_DISTRO"
