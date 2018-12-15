@@ -108,8 +108,10 @@ function ici_run_cmd_in_docker() {
   local cid
   cid=$(docker create \
       --env-file "${ICI_SRC_PATH}"/docker.env \
+      --env TARGET_REPO_PATH=$TARGET_REPO_PATH \
       "${run_opts[@]}" \
-      "$@")
+      #"$@"
+      )
 
   # detect user inside container
   echo "  +++ DOCKER detect user inside container"
