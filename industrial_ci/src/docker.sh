@@ -207,6 +207,7 @@ function ici_prepare_docker_image() {
     
     echo "  +++ target_docker: $TARGET_REPO_PATH/$DOCKER_FILE"
     ls -la /opt/atlassian/pipelines/agent/build/
+    ls -la /opt/atlassian/pipelines/agent/build/setup/Dockerfile
     
     if [ -f "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if single file, run without context
        echo "  +++ if single file, run without context"
