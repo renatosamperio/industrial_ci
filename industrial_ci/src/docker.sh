@@ -141,7 +141,7 @@ function ici_run_cmd_in_docker() {
       ls -laR $HOME/$d
       echo "    Copying key: $HOME/$d to $cid:/root/"
       docker_cp "$HOME/$d" "$cid:/root/"
-      ls -la $cid:/root/
+#      ls -la $cid:/root/
     fi
   done
 
