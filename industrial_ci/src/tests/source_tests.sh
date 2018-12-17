@@ -239,7 +239,7 @@ echo "  +++ PWD: $(pwd)"
 echo "  +++ SRC: "
 ls -la src/
 echo "  +++ CATKIN_WS: "
-ls -la catkin_ws/
+ls -la catkin_ws/src
 
 echo "  +++ Catking for catkin"
 # for catkin
@@ -266,6 +266,7 @@ if [ "$BUILDER" == catkin ]; then
     echo "  +++ Catking Build CATKIN_PARALLEL_JOBS: $CATKIN_PARALLEL_JOBS"
     echo "  +++ Catking Build BUILD_PKGS_WHITELIST: $BUILD_PKGS_WHITELIST"
     echo "  +++ Catking Build ROS_PARALLEL_JOBS: $ROS_PARALLEL_JOBS"
+    cd $CATKIN_WORKSPACE/src/
 	catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS; 
 fi
 
