@@ -271,7 +271,7 @@ if [ "$BUILDER" == catkin ]; then
     cd $CATKIN_WORKSPACE/
     rm src/$TARGET_REPO_NAME
     echo "  +++ PWD: $(pwd)"
-    ls -la
+    ls -la src
 	catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS; 
 fi
 
