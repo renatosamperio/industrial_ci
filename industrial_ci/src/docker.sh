@@ -180,7 +180,8 @@ function docker_cp {
 #   (None)
 #######################################
 function ici_docker_build() {
-  echo "  +++ DOCKER wrapper for docker build"
+echo "  +++ DOCKER wrapper for docker build"
+echo "  +++ DOCKER image file: $DOCKER_IMAGE"
   local opts=($DOCKER_BUILD_OPTS)
   if [ "$DOCKER_PULL" != false ]; then
     opts+=("--pull")
@@ -219,9 +220,13 @@ function ici_prepare_docker_image() {
     
     if [ -f "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if single file, run without context
        echo "  +++ DOCKER if single file, run without context"
+       
+   	   ## Setting up image file
+   	   export DOCKER_IMAGE=$DOCKER_BASE_IMAGE
+       
        echo "  +++ DOCKER options: $DOCKER_BUILD_OPTS"
-       #ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
-       docker build -f $TARGET_REPO_PATH/$DOCKER_FILE .  --rm
+       ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
+       #docker build -t hive_mind -f $TARGET_REPO_PATH/$DOCKER_FILE .  --rm > /dev/null
     elif [ -d "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if path, run with context
     	echo "  +++ if path, run with context"
         ici_docker_build "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null

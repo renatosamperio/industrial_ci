@@ -33,5 +33,6 @@ export DOCKER_BASE_IMAGE=nvidia/cuda:9.2-devel-ubuntu16.04
 echo "  +++ DOCKER_FILE: $DOCKER_FILE"
 echo "  +++ ROS_DISTRO: $ROS_DISTRO"
 echo "  +++ ROSINSTALL_FILENAME: $ROSINSTALL_FILENAME"
+echo "  +++ TARGET_REPO_NAME: $TARGET_REPO_NAME"
 
 env "$@" bash $DIR_THIS/industrial_ci/src/ci_main.sh
