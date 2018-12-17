@@ -236,7 +236,10 @@ echo "  +++ Catking Build"
 ici_time_start catkin_build
 
 echo "  +++ PWD: $(pwd)"
-ls -la
+echo "  +++ SRC: "
+ls -la src/
+echo "  +++ CATKIN_WS: "
+ls -la catkin_ws/
 
 echo "  +++ Catking for catkin"
 # for catkin
@@ -256,6 +259,8 @@ if [ "${PKGS_DOWNSTREAM// }" == "" ]; then
 	export PKGS_DOWNSTREAM=$( [ "${BUILD_PKGS_WHITELIST// }" == "" ] && echo "$TARGET_PKGS" || echo "$BUILD_PKGS_WHITELIST");
 	echo "  +++ Catking PKGS_DOWNSTREAM: ${PKGS_DOWNSTREAM}" 
 fi
+
+echo "  +++ Catking Build BUILDER: $BUILDER"
 if [ "$BUILDER" == catkin ]; then 
     echo "  +++ Catking Build OPT_VI: $OPT_VI"
     echo "  +++ Catking Build CATKIN_PARALLEL_JOBS: $CATKIN_PARALLEL_JOBS"
@@ -265,6 +270,7 @@ if [ "$BUILDER" == catkin ]; then
 fi
 
 ici_time_end  # catkin_build
+echo "  +++ Catking Build finished"
 
 if [ "$NOT_TEST_BUILD" != "true" ]; then
 	echo "  +++ CATKIN BUILD DOWNSTREAM PACAKGES"
