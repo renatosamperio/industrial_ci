@@ -266,7 +266,9 @@ if [ "$BUILDER" == catkin ]; then
     echo "  +++ Catking Build CATKIN_PARALLEL_JOBS: $CATKIN_PARALLEL_JOBS"
     echo "  +++ Catking Build BUILD_PKGS_WHITELIST: $BUILD_PKGS_WHITELIST"
     echo "  +++ Catking Build ROS_PARALLEL_JOBS: $ROS_PARALLEL_JOBS"
-    cd $CATKIN_WORKSPACE/src/
+    cd $CATKIN_WORKSPACE/
+    echo "  +++ PWD: $(pwd)"
+    ls -la
 	catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS; 
 fi
 
