@@ -120,13 +120,15 @@ function ici_run_cmd_in_docker() {
 
   # checking for known hosts
   echo "  +++ DOCKER checking for known hosts"
-  echo "  ++ CI_SSH_KEY: $CI_SSH_KEY"
+  echo "  +++ CI_SSH_KEY: $CI_SSH_KEY"
   if [ -n "$CI_SSH_KEY" ]; then
   	cat my_known_hosts >> ~/.ssh/known_hosts
   	(umask  077 ; echo $CI_SSH_KEY | base64 -d > ~/.ssh/id_rsa)
-  	echo "  +++ DOCKER added known hosts to ~/.ssh/"
+  	echo "  +++ DOCKER added id_rsa ~/.ssh/"
   	ls -la ~/.ssh/
-  	echo "  +++ Local known hosts"
+  	cat ~/.ssh/id_rsa
+
+  	echo "  +++ DOCKER added known hosts to ~/.ssh/"
   	cat ~/.ssh/known_hosts
   fi
   
@@ -212,6 +214,8 @@ function ici_prepare_docker_image() {
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
   	echo "  +++ DOCKER docker file was provided"
     #DOCKER_IMAGE=${DOCKER_IMAGE:"industrial-ci/custom"}
+    ## Setting up image file
+   	DOCKER_IMAGE=$DOCKER_BASE_IMAGE
     
     echo "  +++ target_docker: $TARGET_REPO_PATH/$DOCKER_FILE"
     ls -la /opt/atlassian/pipelines/agent/build/
@@ -220,8 +224,6 @@ function ici_prepare_docker_image() {
     if [ -f "$TARGET_REPO_PATH/$DOCKER_FILE" ]; then # if single file, run without context
        echo "  +++ DOCKER if single file, run without context"
        
-   	   ## Setting up image file
-   	   export DOCKER_IMAGE=$DOCKER_BASE_IMAGE
    	   echo "  +++ DOCKER prepare DOCKER_IMAGE: $DOCKER_IMAGE"
        
        echo "  +++ DOCKER options: $DOCKER_BUILD_OPTS"
