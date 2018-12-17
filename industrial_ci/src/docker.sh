@@ -180,8 +180,10 @@ function docker_cp {
 function ici_docker_build() {
 echo "  +++ DOCKER wrapper for docker build"
 echo "  +++ DOCKER image file: $DOCKER_IMAGE"
+echo "  +++ DOCKER arguments: $@"
   local opts=($DOCKER_BUILD_OPTS)
   if [ "$DOCKER_PULL" != false ]; then
+  	echo "  +++ DOCKER added pull"
     opts+=("--pull")
   fi
   echo "  +++ DOCKER building with options: ${opts[@]}"
