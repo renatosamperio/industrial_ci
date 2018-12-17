@@ -99,11 +99,11 @@ function ici_run_cmd_in_docker() {
     echo "  +++ DOCKER 3run_opts: $run_opts"
   fi
 
-#  echo "  +++ DOCKER env-file: ${ICI_SRC_PATH}"/docker.env"
-#  ls -la ${ICI_SRC_PATH}"/docker.env
-#  echo "  +++ DOCKER options: ${run_opts[@]}"
-#  echo "  +++ DOCKER other?: $@}"
-#  echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
+  echo "  +++ DOCKER env-file: ${ICI_SRC_PATH}"/docker.env"
+  ls -la ${ICI_SRC_PATH}"/docker.env
+  echo "  +++ DOCKER options: ${run_opts[@]}"
+  echo "  +++ DOCKER other?: $@}"
+  echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
   echo "  +++ DOCKER creating docker environment"
   local cid
   cid=$(docker create \
