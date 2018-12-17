@@ -42,7 +42,7 @@ function ici_require_run_in_docker() {
     local docker_ici_src_path=/root/ici
     echo "  +++   DOCKER SET TARGET REPO: $TARGET_REPO_NAME"
 	echo "  +++   DOCKER docker_target_repo_path: $docker_target_repo_path"
-	echo "  +++   DOCKER DOCKER_IMAGE: $DOCKER_IMAGE"
+	echo "  +++   DOCKER run in docker DOCKER_IMAGE: $DOCKER_IMAGE"
     ici_run_cmd_in_docker -e "TARGET_REPO_PATH=$docker_target_repo_path" \
                           -v "$TARGET_REPO_PATH/:$docker_target_repo_path:ro" \
                           -v "$ICI_SRC_PATH/:$docker_ici_src_path:ro" \
@@ -106,12 +106,10 @@ function ici_run_cmd_in_docker() {
 #  echo "  +++ DOCKER DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
   echo "  +++ DOCKER creating docker environment"
   local cid
-  cid=$(docker create --env-file "${ICI_SRC_PATH}"/docker.env)
-  
-      #-e TARGET_REPO_PATH=/root/src/langstroth -v /opt/atlassian/pipelines/agent/build/:/root/src/langstroth:ro -v /opt/atlassian/pipelines/agent/build/.industrial_ci/industrial_ci/src/:/root/ici:ro -t  /bin/bash /root/ici/ci_main.sh)
-  
-  	  #"${run_opts[@]}" \
-  	  #"$@")
+  cid=$(docker create \
+      --env-file "${ICI_SRC_PATH}"/docker.env \
+      "${run_opts[@]}" \
+      "$@")
 
   # detect user inside container
   echo "  +++ DOCKER detect user inside container"
@@ -211,8 +209,7 @@ function ici_prepare_docker_image() {
   echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
   	echo "  +++ DOCKER docker file was provided"
-    DOCKER_IMAGE=${DOCKER_IMAGE:"industrial-ci/custom"}
-    echo "  +++ DOCKER DOCKER_IMAGE: $DOCKER_IMAGE"
+    #DOCKER_IMAGE=${DOCKER_IMAGE:"industrial-ci/custom"}
     
     echo "  +++ target_docker: $TARGET_REPO_PATH/$DOCKER_FILE"
     ls -la /opt/atlassian/pipelines/agent/build/
@@ -223,6 +220,7 @@ function ici_prepare_docker_image() {
        
    	   ## Setting up image file
    	   export DOCKER_IMAGE=$DOCKER_BASE_IMAGE
+   	   echo "  +++ DOCKER prepare DOCKER_IMAGE: $DOCKER_IMAGE"
        
        echo "  +++ DOCKER options: $DOCKER_BUILD_OPTS"
        ici_docker_build - < "$TARGET_REPO_PATH/$DOCKER_FILE" > /dev/null
