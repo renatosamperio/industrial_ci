@@ -161,7 +161,6 @@ if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
     echo "  +++ ensure that the target is not in .rosinstall: $TARGET_REPO_NAME"
     
-    (cd $CATKIN_WORKSPACE/src; rm $TARGET_REPO_NAME)
     echo "  +++ PWD: $(pwd)"
     (cd $CATKIN_WORKSPACE/src; $ROSWS rm $TARGET_REPO_NAME 2> /dev/null \
      && echo "$ROSWS ignored $TARGET_REPO_NAME found in $CATKIN_WORKSPACE/src/.rosinstall file. Its source fetched from your repository is used instead." || true) # TODO: add warn function
@@ -270,6 +269,7 @@ if [ "$BUILDER" == catkin ]; then
     echo "  +++ Catking Build BUILD_PKGS_WHITELIST: $BUILD_PKGS_WHITELIST"
     echo "  +++ Catking Build ROS_PARALLEL_JOBS: $ROS_PARALLEL_JOBS"
     cd $CATKIN_WORKSPACE/
+    rm src/$TARGET_REPO_NAME
     echo "  +++ PWD: $(pwd)"
     ls -la
 	catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS; 
