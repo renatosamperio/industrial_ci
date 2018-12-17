@@ -216,7 +216,9 @@ function ici_prepare_docker_image() {
     #DOCKER_IMAGE=${DOCKER_IMAGE:"industrial-ci/custom"}
     ## Setting up image file
    	DOCKER_IMAGE=$DOCKER_BASE_IMAGE
-    
+   	
+   	echo "  +++ DOCKER_IMAGE: $DOCKER_IMAGE"
+    echo "  +++ DOCKER_BASE_IMAGE: $DOCKER_BASE_IMAGE"
     echo "  +++ target_docker: $TARGET_REPO_PATH/$DOCKER_FILE"
     ls -la /opt/atlassian/pipelines/agent/build/
     ls -la /opt/atlassian/pipelines/agent/build/setup/Dockerfile
