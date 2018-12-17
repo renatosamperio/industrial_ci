@@ -159,7 +159,10 @@ echo "  +++ Download upstream packages into workspace: $CATKIN_WORKSPACE/src/"
 # download upstream packages into workspace
 if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
-    echo "  +++ ensure that the target is not in .rosinstall"
+    echo "  +++ ensure that the target is not in .rosinstall: $TARGET_REPO_NAME"
+    
+    
+    echo "  +++ PWD: $(pwd)"
     (cd $CATKIN_WORKSPACE/src; $ROSWS rm $TARGET_REPO_NAME 2> /dev/null \
      && echo "$ROSWS ignored $TARGET_REPO_NAME found in $CATKIN_WORKSPACE/src/.rosinstall file. Its source fetched from your repository is used instead." || true) # TODO: add warn function
     $ROSWS update -t $CATKIN_WORKSPACE/src
@@ -244,20 +247,20 @@ ls -la catkin_ws/src
 echo "  +++ Catking for catkin"
 # for catkin
 if [ "${TARGET_PKGS// }" == "" ]; then 
-	echo "  +++ Catking Build catkin_topological_order, TARGET_REPO_PATH: ${TARGET_REPO_PATH}"
+	echo "  +++ Catking 1 Build catkin_topological_order, TARGET_REPO_PATH: ${TARGET_REPO_PATH}"
 	export TARGET_PKGS=`catkin_topological_order ${TARGET_REPO_PATH} --only-names`; 
-	echo "  +++ Catking TARGET_PKGS: ${TARGET_PKGS}"
+	echo "  +++ Catking 1 TARGET_PKGS: ${TARGET_PKGS}"
 fi
 # fall-back to all workspace packages if target repo does not contain any packages (#232) 
 if [ "${TARGET_PKGS// }" == "" ]; then 
-	echo "  +++ Catking Build catkin_topological_order, CATKIN_WORKSPACE: ${CATKIN_WORKSPACE}"
+	echo "  +++ Catking 2 Build catkin_topological_order, CATKIN_WORKSPACE: ${CATKIN_WORKSPACE}"
 	export TARGET_PKGS=`catkin_topological_order $CATKIN_WORKSPACE/src --only-names`; 
-	echo "  +++ Catking TARGET_PKGS: ${TARGET_PKGS}"
+	echo "  +++ Catking 2 TARGET_PKGS: ${TARGET_PKGS}"
 fi
 if [ "${PKGS_DOWNSTREAM// }" == "" ]; then 
-	echo "  +++ Catking Build package downstream: ${PKGS_DOWNSTREAM}"
+	echo "  +++ Catking 3 Build package downstream: ${PKGS_DOWNSTREAM}"
 	export PKGS_DOWNSTREAM=$( [ "${BUILD_PKGS_WHITELIST// }" == "" ] && echo "$TARGET_PKGS" || echo "$BUILD_PKGS_WHITELIST");
-	echo "  +++ Catking PKGS_DOWNSTREAM: ${PKGS_DOWNSTREAM}" 
+	echo "  +++ Catking 3 PKGS_DOWNSTREAM: ${PKGS_DOWNSTREAM}" 
 fi
 
 echo "  +++ Catking Build BUILDER: $BUILDER"
