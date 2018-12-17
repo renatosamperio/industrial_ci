@@ -191,28 +191,35 @@ echo "      $(pwd)"
 
 # execute BEFORE_SCRIPT in repository, exit on errors
 if [ "${BEFORE_SCRIPT// }" != "" ]; then
+  echo "  +++ Calling BEFORE SCRIPT"
   ici_time_start before_script
-
+  
   bash -e -c "cd $TARGET_REPO_PATH; ${BEFORE_SCRIPT}"
 
   ici_time_end  # before_script
+  echo "  +++ Finishing calling BEFORE SCRIPT"
 fi
 
 
-echo "  +++ ROSDEP INSTALL"
-ici_time_start rosdep_install
+#echo "  +++ ROSDEP INSTALL"
+#ici_time_start rosdep_install
+#
+#rosdep_opts=(-q --from-paths $CATKIN_WORKSPACE/src --ignore-src --rosdistro $ROS_DISTRO -y)
+#echo "  +++ ROSDEP INSTALL rosdep_opts: $rosdep_opts"
+#
+#if [ -n "$ROSDEP_SKIP_KEYS" ]; then
+#  rosdep_opts+=(--skip-keys "$ROSDEP_SKIP_KEYS")
+#  echo "  +++ ROSDEP INSTALL skip keys rosdep_opts: $rosdep_opts"
+#fi
+#set -o pipefail # fail if rosdep install fails
+#echo "  +++ ROSDEP INSTALL fail if rosdep install fails"
+#
+#echo "  +++ ROSDEP INSTALL options set"
+#rosdep install "${rosdep_opts[@]}" | { grep "executing command" || true; }
+#set +o pipefail
 
-rosdep_opts=(-q --from-paths $CATKIN_WORKSPACE/src --ignore-src --rosdistro $ROS_DISTRO -y)
-if [ -n "$ROSDEP_SKIP_KEYS" ]; then
-  rosdep_opts+=(--skip-keys "$ROSDEP_SKIP_KEYS")
-fi
-set -o pipefail # fail if rosdep install fails
-echo "  +++ ROSDEP INSTALL options set"
-rosdep install "${rosdep_opts[@]}" | { grep "executing command" || true; }
-set +o pipefail
-
-echo "  +++ ROSDEP INSTALL time end"
-ici_time_end  # rosdep_install
+#echo "  +++ ROSDEP INSTALL time end"
+#ici_time_end  # rosdep_install
 
 if [ "$CATKIN_LINT" == "true" ] || [ "$CATKIN_LINT" == "pedantic" ]; then
     echo "  +++ CATKIN LINT"

@@ -141,6 +141,7 @@ function ici_run_cmd_in_docker() {
       ls -laR $HOME/$d
       echo "    Copying key: $HOME/$d to $cid:/root/"
       docker_cp "$HOME/$d" "$cid:/root/"
+      ls -la $cid:/root/
     fi
   done
 
@@ -165,6 +166,7 @@ function docker_cp {
   tar --numeric-owner --owner=${docker_uid:-root} --group=${docker_gid:-root} -c -f - -C "$(dirname $1)" "$(basename $1)" | docker cp - $2
   set +o pipefail
 }
+
 #######################################
 # wrapper for docker build
 #
@@ -180,9 +182,9 @@ function docker_cp {
 #   (None)
 #######################################
 function ici_docker_build() {
-echo "  +++ DOCKER wrapper for docker build"
-echo "  +++ DOCKER image file: $DOCKER_IMAGE"
-echo "  +++ DOCKER arguments: $@"
+  echo "  +++ DOCKER wrapper for docker build"
+  echo "  +++ DOCKER image file: $DOCKER_IMAGE"
+  echo "  +++ DOCKER arguments: $@"
   local opts=($DOCKER_BUILD_OPTS)
   if [ "$DOCKER_PULL" != false ]; then
   	echo "  +++ DOCKER added pull"

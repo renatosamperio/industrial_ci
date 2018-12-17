@@ -33,6 +33,7 @@ source ${ICI_SRC_PATH}/docker.sh
 trap ici_exit EXIT # install industrial_ci exit handler
 
 # Start prerelease, and once it finishs then finish this script too.
+echo "  +++ CI Checking build option"
 if [ "$PRERELEASE" == true ]; then
   echo "  +++ CI MAIN CALL PRERELEASE"
   source ${ICI_SRC_PATH}/tests/ros_prerelease.sh
