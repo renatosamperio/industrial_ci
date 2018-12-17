@@ -235,12 +235,34 @@ fi
 echo "  +++ Catking Build"
 ici_time_start catkin_build
 
+echo "  +++ PWD: $(pwd)"
+ls -la
+
+echo "  +++ Catking for catkin"
 # for catkin
-if [ "${TARGET_PKGS// }" == "" ]; then export TARGET_PKGS=`catkin_topological_order ${TARGET_REPO_PATH} --only-names`; fi
+if [ "${TARGET_PKGS// }" == "" ]; then 
+	echo "  +++ Catking Build catkin_topological_order, TARGET_REPO_PATH: ${TARGET_REPO_PATH}"
+	export TARGET_PKGS=`catkin_topological_order ${TARGET_REPO_PATH} --only-names`; 
+	echo "  +++ Catking TARGET_PKGS: ${TARGET_PKGS}"
+fi
 # fall-back to all workspace packages if target repo does not contain any packages (#232) 
-if [ "${TARGET_PKGS// }" == "" ]; then export TARGET_PKGS=`catkin_topological_order $CATKIN_WORKSPACE/src --only-names`; fi
-if [ "${PKGS_DOWNSTREAM// }" == "" ]; then export PKGS_DOWNSTREAM=$( [ "${BUILD_PKGS_WHITELIST// }" == "" ] && echo "$TARGET_PKGS" || echo "$BUILD_PKGS_WHITELIST"); fi
-if [ "$BUILDER" == catkin ]; then catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS            ; fi
+if [ "${TARGET_PKGS// }" == "" ]; then 
+	echo "  +++ Catking Build catkin_topological_order, CATKIN_WORKSPACE: ${CATKIN_WORKSPACE}"
+	export TARGET_PKGS=`catkin_topological_order $CATKIN_WORKSPACE/src --only-names`; 
+	echo "  +++ Catking TARGET_PKGS: ${TARGET_PKGS}"
+fi
+if [ "${PKGS_DOWNSTREAM// }" == "" ]; then 
+	echo "  +++ Catking Build package downstream: ${PKGS_DOWNSTREAM}"
+	export PKGS_DOWNSTREAM=$( [ "${BUILD_PKGS_WHITELIST// }" == "" ] && echo "$TARGET_PKGS" || echo "$BUILD_PKGS_WHITELIST");
+	echo "  +++ Catking PKGS_DOWNSTREAM: ${PKGS_DOWNSTREAM}" 
+fi
+if [ "$BUILDER" == catkin ]; then 
+    echo "  +++ Catking Build OPT_VI: $OPT_VI"
+    echo "  +++ Catking Build CATKIN_PARALLEL_JOBS: $CATKIN_PARALLEL_JOBS"
+    echo "  +++ Catking Build BUILD_PKGS_WHITELIST: $BUILD_PKGS_WHITELIST"
+    echo "  +++ Catking Build ROS_PARALLEL_JOBS: $ROS_PARALLEL_JOBS"
+	catkin build $OPT_VI --summarize  --no-status $BUILD_PKGS_WHITELIST $CATKIN_PARALLEL_JOBS --make-args $ROS_PARALLEL_JOBS; 
+fi
 
 ici_time_end  # catkin_build
 
