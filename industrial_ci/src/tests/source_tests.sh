@@ -161,7 +161,7 @@ if [ -e $CATKIN_WORKSPACE/src/.rosinstall ]; then
     # ensure that the target is not in .rosinstall
     echo "  +++ ensure that the target is not in .rosinstall: $TARGET_REPO_NAME"
     
-    (cd $CATKIN_WORKSPACE/src; rm $TARGET_REPO_NAME_
+    (cd $CATKIN_WORKSPACE/src; rm $TARGET_REPO_NAME)
     echo "  +++ PWD: $(pwd)"
     (cd $CATKIN_WORKSPACE/src; $ROSWS rm $TARGET_REPO_NAME 2> /dev/null \
      && echo "$ROSWS ignored $TARGET_REPO_NAME found in $CATKIN_WORKSPACE/src/.rosinstall file. Its source fetched from your repository is used instead." || true) # TODO: add warn function
