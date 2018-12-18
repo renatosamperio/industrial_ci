@@ -211,6 +211,9 @@ function ici_docker_build() {
 function ici_prepare_docker_image() {
   echo "  +++ DOCKER set-ups the CI docker image"
   ici_time_start prepare_docker_image
+  
+  echo "  +++ DOCKER add user docker to system"
+  sudo usermod -aG docker $USER
 
   echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
