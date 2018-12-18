@@ -213,8 +213,8 @@ function ici_prepare_docker_image() {
   ici_time_start prepare_docker_image
   
   echo "  +++ DOCKER add user docker to system"
-  ls -la /bin/busybox/
-  sudo /bin/busybox/groupadd docker
+  ls -la /usr/sbin
+  sudo /usr/sbin/groupadd docker
   sudo usermod -aG docker $USER
 
   echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
