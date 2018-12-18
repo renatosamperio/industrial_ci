@@ -215,8 +215,11 @@ function ici_prepare_docker_image() {
   echo "  +++ DOCKER add user docker to system"
   ls -la /usr/sbin
   sudo /usr/sbin/groupadd docker
-  	
+  
+  echo "  +++ DOCKER looking for usermod"
   sudo find / -name "usermod"
+  	
+  echo "  +++ DOCKER calling usermod"
   sudo usermod -aG docker $USER
 
   echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
