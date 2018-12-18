@@ -211,12 +211,7 @@ function ici_docker_build() {
 function ici_prepare_docker_image() {
   echo "  +++ DOCKER set-ups the CI docker image"
   ici_time_start prepare_docker_image
-  
-  echo "  +++ DOCKER add user docker to system"
-  ls -la /usr/sbin
-  sudo /usr/sbin/adduser docker docker
-  sudo /usr/sbin/addgroup docker
-  
+
   echo "  +++ DOCKER looking for usermod"
   sudo find / -name "usermod"
   
