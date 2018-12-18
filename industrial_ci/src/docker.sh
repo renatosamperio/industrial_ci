@@ -218,9 +218,10 @@ function ici_prepare_docker_image() {
   
   echo "  +++ DOCKER looking for usermod"
   sudo find / -name "usermod"
-  	
-  echo "  +++ DOCKER calling usermod"
-  sudo usermod -aG docker $USER
+  
+  echo "+++ DOCKER DOCKER_HOST: $DOCKER_HOST"
+#  echo "  +++ DOCKER calling usermod"
+#  sudo usermod -aG docker $USER
 
   echo "  +++ DOCKER DOCKER_FILE: $DOCKER_FILE"
   if [ -n "$DOCKER_FILE" ]; then # docker file was provided
